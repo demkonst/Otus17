@@ -13,7 +13,7 @@ namespace Otus17
             Console.Write("Укажите таймаут ожидания документов (сек): ");
             var timeoutRaw = Console.ReadLine();
 
-            var dc = new DocumentsReceiver();
+            using var dc = new DocumentsReceiver();
             dc.DocumentsReady += Dc_DocumentsReady;
             dc.TimedOut += Dc_TimedOut;
 

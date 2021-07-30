@@ -6,7 +6,7 @@ using System.Timers;
 
 namespace DelegatesLib
 {
-    public class DocumentsReceiver
+    public class DocumentsReceiver: IDisposable
     {
         private readonly Dictionary<string, bool> _filesReady = new Dictionary<string, bool>
         {
@@ -17,6 +17,12 @@ namespace DelegatesLib
 
         private FileSystemWatcher _fileSystemWatcher;
         private Timer _timer;
+
+        public void Dispose()
+        {
+            _fileSystemWatcher?.Dispose();
+            _timer?.Dispose();
+        }
 
         public event Action DocumentsReady;
         public event Action TimedOut;
@@ -48,6 +54,7 @@ namespace DelegatesLib
             _fileSystemWatcher.Changed -= Fsw_Changed;
             _fileSystemWatcher.Renamed -= Fsw_Changed;
         }
+
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Stop();
